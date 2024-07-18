@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block head %}
+    <link
+      rel="stylesheet"
+      href="{% static 'css/index.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    {% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body class="background-container">
+{% if messages %}
+  {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+    {% endfor %}
+{% endif %}
+{% block content %}
+{% endblock %}
+    <script>
+      const images = [
+        'url("{% static "img/pic-1.jpg" %}")',
+        'url("{% static "img/pic-2.jpg" %}")',
+        'url("{% static "img/pic-3.jpg" %}")',
+        'url("{% static "img/pic-4.jpg" %}")',
+      ];
+
+      let currentIndex = 0;
+
+      function changeBackground() {
+        const container = document.querySelector(".background-container");
+        container.style.backgroundImage = images[currentIndex];
+        currentIndex = (currentIndex + 1) % images.length;
+      }
+      setInterval(changeBackground, 5000);
+      changeBackground();
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>  
+  </body>
+</html>

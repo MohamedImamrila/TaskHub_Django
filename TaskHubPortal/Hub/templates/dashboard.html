@@ -1,0 +1,79 @@
+{% extends 'base.html' %} {% load static %} 
+{% block title %}DashBoard{% endblock %} 
+{% block content %}
+<header class="container">
+  <h1>Welcome, {{name}}</h1>
+  <br>
+  <div class="row">
+    <div class="col d-flex align-items-center justify-content-center">
+      <form action="addtask/" method="post">
+        {% csrf_token %}
+        <div class="form-row">
+          <div class="col-md-4 mb-3">
+            <label for="id_task_name">Task Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="id_task_name"
+              name="TaskName"
+              placeholder="Enter Task Name"
+              required
+            />
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="id_assigned_by">Assigned By</label>
+            <input
+              type="text"
+              class="form-control"
+              id="id_assigned_by"
+              name="AssignedBy"
+              value="{{name}}"
+              readonly
+            />
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="id_status">Status</label>
+            <select class="form-control" id="id_status" name="Status" required>
+              <option value="">Select Status</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Task</button>
+      </form>
+    </div>
+  </div>
+</header>
+<main class="container">
+  <h2 class="text-white">My Tasks</h2>
+  <table class="table table-striped text-white">
+    <thead>
+      <tr>
+        <th scope="col">Task Name</th>
+        <th scope="col">Date</th>
+        <th scope="col">Time</th>
+        <th scope="col">Assigned By</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for task in tasks %}
+      <tr>
+        <td>{{task.TaskName}}</td>
+        <td>{{task.Date}}</td>
+        <td>{{task.Time}}</td>
+        <td>{{task.AssignedBy}}</td>
+        <td>{{task.Status}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</main>
+<footer class="container text-center">
+  <form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Logout</button>
+  </form>
+</footer>
+{% endblock %}
